@@ -23,7 +23,7 @@ export class DatabaseService {
     try {
       await client.query(`SET client_encoding TO 'LATIN9'`);
       const res = await client.query(text, params);
-      return res.rows;
+      return res.rows as T[];
     } finally {
       client.release();
     }
