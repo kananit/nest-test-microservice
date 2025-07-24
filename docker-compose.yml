@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: nest-db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB}
+    ports:
+      - '${DB_PORT}:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d nest']
+      interval: 10s
+      retries: 5
+
+  app:
+    build: .
+    container_name: nest-app
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '3000:3000'
+    environment:
+      PGUSER: ${POSTGRES_USER}
+      PGPASSWORD: ${DB_PASSWORD}
+      PGHOST: ${DB}
+      PGDATABASE: ${DB_HOST}
+      PGPORT: 5432
+
+volumes:
+  db_data:
