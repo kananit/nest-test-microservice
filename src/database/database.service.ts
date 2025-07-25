@@ -4,6 +4,28 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from 'src/dto/update-user.dto';
 import { DeleteUserDto } from 'src/dto/delete-user.dto';
 
+export interface User {
+  id: number;
+  name: string;
+  surname: string;
+  age: number;
+}
+
+export interface CreateUserResult {
+  result: User[];
+  message: string;
+}
+
+export interface UpdateUserResult {
+  result: User[];
+  message: string;
+}
+
+export interface DeleteUserResult {
+  result: User[];
+  message: string;
+}
+
 @Injectable()
 export class DatabaseService {
   private readonly pool: Pool;
@@ -29,14 +51,13 @@ export class DatabaseService {
     }
   }
 
-  async findAll() {
-    const result = await this.query('SELECT * FROM users');
-    return result;
+  async findAll(): Promise<User[]> {
+    return await this.query<User>('SELECT * FROM users');
   }
 
-  async createUser(createUserDto: CreateUserDto) {
+  async createUser(createUserDto: CreateUserDto): Promise<CreateUserResult> {
     const { name, surname, age } = createUserDto;
-    const result = await this.query(
+    const result = await this.query<User>(
       `INSERT INTO users (name, surname, age) VALUES ($1, $2, $3) RETURNING name, surname, age`,
       [name, surname, age],
     );
@@ -46,9 +67,11 @@ export class DatabaseService {
     };
   }
 
-  async deleteUserById(createUserDto: DeleteUserDto) {
+  async deleteUserById(
+    createUserDto: DeleteUserDto,
+  ): Promise<DeleteUserResult> {
     const { id } = createUserDto;
-    const result = await this.query(
+    const result = await this.query<User>(
       `DELETE FROM users WHERE id = $1 RETURNING *`,
       [id],
     );
@@ -59,9 +82,11 @@ export class DatabaseService {
     };
   }
 
-  async updateUserById(updateUserDto: UpdateUserDto) {
+  async updateUserById(
+    updateUserDto: UpdateUserDto,
+  ): Promise<UpdateUserResult> {
     const { id, name, surname, age } = updateUserDto;
-    const result = await this.query(
+    const result = await this.query<User>(
       `UPDATE users SET name = $2, surname = $3, age = $4 WHERE id = $1 RETURNING *`,
       [id, name, surname, age],
     );

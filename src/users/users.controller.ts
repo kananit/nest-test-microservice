@@ -3,7 +3,13 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from 'src/dto/update-user.dto';
 import { DeleteUserDto } from 'src/dto/delete-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { DatabaseService } from 'src/database/database.service';
+import {
+  CreateUserResult,
+  DatabaseService,
+  DeleteUserResult,
+  UpdateUserResult,
+} from 'src/database/database.service';
+import { User } from 'src/database/database.service';
 
 @Controller('users')
 @ApiTags('Users')
@@ -11,19 +17,19 @@ export class UsersController {
   constructor(private readonly databaseService: DatabaseService) {}
   @Post()
   @ApiResponse({ status: 201 })
-  createUser(@Body() dto: CreateUserDto) {
+  createUser(@Body() dto: CreateUserDto): Promise<CreateUserResult> {
     return this.databaseService.createUser(dto);
   }
   @Get()
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.databaseService.findAll();
   }
   @Delete()
-  deleteUserById(@Body() dto: DeleteUserDto) {
+  deleteUserById(@Body() dto: DeleteUserDto): Promise<DeleteUserResult> {
     return this.databaseService.deleteUserById(dto);
   }
   @Put()
-  updateUserById(@Body() dto: UpdateUserDto) {
+  updateUserById(@Body() dto: UpdateUserDto): Promise<UpdateUserResult> {
     return this.databaseService.updateUserById(dto);
   }
 }
