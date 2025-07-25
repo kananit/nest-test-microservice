@@ -3,28 +3,10 @@ import { Pool } from 'pg';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from 'src/dto/update-user.dto';
 import { DeleteUserDto } from 'src/dto/delete-user.dto';
-
-export interface User {
-  id: number;
-  name: string;
-  surname: string;
-  age: number;
-}
-
-export interface CreateUserResult {
-  result: User[];
-  message: string;
-}
-
-export interface UpdateUserResult {
-  result: User[];
-  message: string;
-}
-
-export interface DeleteUserResult {
-  result: User[];
-  message: string;
-}
+import { CreateUserResult } from 'src/interfaces/user.interfaces';
+import { UpdateUserResult } from 'src/interfaces/user.interfaces';
+import { DeleteUserResult } from 'src/interfaces/user.interfaces';
+import { User } from 'src/interfaces/user.interfaces';
 
 @Injectable()
 export class DatabaseService {
