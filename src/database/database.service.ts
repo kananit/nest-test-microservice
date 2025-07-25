@@ -3,9 +3,11 @@ import { Pool } from 'pg';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from 'src/dto/update-user.dto';
 import { DeleteUserDto } from 'src/dto/delete-user.dto';
-import { CreateUserResult } from 'src/interfaces/user.interfaces';
-import { UpdateUserResult } from 'src/interfaces/user.interfaces';
-import { DeleteUserResult } from 'src/interfaces/user.interfaces';
+import {
+  CreateUserResult,
+  UpdateUserResult,
+  DeleteUserResult,
+} from 'src/interfaces/user.interfaces';
 import { User } from 'src/interfaces/user.interfaces';
 
 @Injectable()
