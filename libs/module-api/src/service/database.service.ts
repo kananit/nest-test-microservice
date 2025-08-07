@@ -1,0 +1,88 @@
+import { Injectable } from '@nestjs/common';
+import { Pool } from 'pg';
+import { CreateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/create-user.dto';
+import { UpdateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/update-user.dto';
+import { DeleteUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/delete-user.dto';
+import {
+  CreateUserResult,
+  UpdateUserResult,
+  DeleteUserResult,
+} from 'apps/user-api/src/core/application-module/src/interfaces/user.interfaces';
+import { User } from 'apps/user-api/src/core/application-module/src/interfaces/user.interfaces';
+import {
+  DB_USER,
+  DB_HOST,
+  DB,
+  DB_PASSWORD,
+} from 'libs/module-api/src/config/db.config';
+@Injectable()
+export class DatabaseService {
+  private readonly pool: Pool;
+  portEnv = process.env.DB_PORT;
+  constructor() {
+    this.pool = new Pool({
+      user: DB_USER,
+      host: DB_HOST,
+      database: DB,
+      password: DB_PASSWORD,
+      port: this.portEnv !== undefined ? parseInt(this.portEnv, 10) : undefined, // преобразование строки в число
+    });
+  }
+
+  async query<T>(text: string, params?: (string | number)[]): Promise<T[]> {
+    const client = await this.pool.connect();
+    try {
+      await client.query(`SET client_encoding TO 'LATIN9'`);
+      const res = await client.query(text, params);
+      return res.rows as T[];
+    } finally {
+      client.release();
+    }
+  }
+
+  async findAll(): Promise<User[]> {
+    return await this.query<User>('SELECT * FROM users');
+  }
+
+  async createUser(createUserDto: CreateUserDto): Promise<CreateUserResult> {
+    const { name, surname, age } = createUserDto;
+    const result = await this.query<User>(
+      `INSERT INTO users (name, surname, age) VALUES ($1, $2, $3) RETURNING name, surname, age`,
+      [name, surname, age],
+    );
+    return {
+      result,
+      message: `Пользователь ${name} ${surname} создан`,
+    };
+  }
+
+  async deleteUserById(
+    createUserDto: DeleteUserDto,
+  ): Promise<DeleteUserResult> {
+    const { id } = createUserDto;
+    const result = await this.query<User>(
+      `DELETE FROM users WHERE id = $1 RETURNING *`,
+      [id],
+    );
+
+    return {
+      result,
+      message: `Пользователь c id ${id} удален`,
+    };
+  }
+
+  async updateUserById(
+    updateUserDto: UpdateUserDto,
+  ): Promise<UpdateUserResult> {
+    const { id, name, surname, age } = updateUserDto;
+    const result = await this.query<User>(
+      `UPDATE users SET name = $2, surname = $3, age = $4 WHERE id = $1 RETURNING *`,
+      [id, name, surname, age],
+    );
+
+    return {
+      result,
+      message: `Пользователь ${name} ${surname} изменен`,
+    };
+  }
+}
