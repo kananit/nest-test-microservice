@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from 'src/dto/update-user.dto';
-import { DeleteUserDto } from 'src/dto/delete-user.dto';
+import { CreateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/create-user.dto';
+import { UpdateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/update-user.dto';
+import { DeleteUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/delete-user.dto';
 import {
   CreateUserResult,
   UpdateUserResult,
   DeleteUserResult,
-} from 'src/interfaces/user.interfaces';
-import { User } from 'src/interfaces/user.interfaces';
+} from 'apps/user-api/src/core/application-module/src/interfaces/user.interfaces';
+import { User } from 'apps/user-api/src/core/application-module/src/interfaces/user.interfaces';
 
 @Injectable()
 export class DatabaseService {

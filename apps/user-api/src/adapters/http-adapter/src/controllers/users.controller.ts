@@ -1,15 +1,15 @@
 import { Controller, Get, Post, Body, Put, Delete } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from 'src/dto/update-user.dto';
-import { DeleteUserDto } from 'src/dto/delete-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
+import { DeleteUserDto } from '../dto/delete-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   CreateUserResult,
   DeleteUserResult,
   UpdateUserResult,
   User,
-} from '../interfaces/user.interfaces';
-import { DatabaseService } from 'src/database/database.service';
+} from '../../../../core/application-module/src/interfaces/user.interfaces';
+import { DatabaseService } from '@app/module-api/service/database.service';
 
 @Controller('users')
 @ApiTags('Users')

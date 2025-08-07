@@ -16,6 +16,14 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@app/module-api": [
+        "libs/module-api/src"
+      ],
+      "@app/module-api/*": [
+        "libs/module-api/src/*"
+      ]
+    }
   }
 }
