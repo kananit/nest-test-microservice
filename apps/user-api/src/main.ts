@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config(); // должен быть на вверхнем уровне чтобы не было ошибки
 
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -17,7 +17,7 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3300);
   console.log(`Сервер запущен УСПЕШНО`);
 }
 bootstrap();
