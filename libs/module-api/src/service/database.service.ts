@@ -9,17 +9,22 @@ import {
   DeleteUserResult,
 } from 'apps/user-api/src/core/application-module/src/interfaces/user.interfaces';
 import { User } from 'apps/user-api/src/core/application-module/src/interfaces/user.interfaces';
-
+import {
+  DB_USER,
+  DB_HOST,
+  DB,
+  DB_PASSWORD,
+} from 'libs/module-api/src/config/db.config';
 @Injectable()
 export class DatabaseService {
   private readonly pool: Pool;
   portEnv = process.env.DB_PORT;
   constructor() {
     this.pool = new Pool({
-      user: process.env.DB_USER,
-      host: process.env.DB_HOST,
-      database: process.env.DB,
-      password: process.env.DB_PASSWORD,
+      user: DB_USER,
+      host: DB_HOST,
+      database: DB,
+      password: DB_PASSWORD,
       port: this.portEnv !== undefined ? parseInt(this.portEnv, 10) : undefined, // преобразование строки в число
     });
   }
