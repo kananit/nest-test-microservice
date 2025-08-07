@@ -5,11 +5,11 @@ import { DeleteUserDto } from 'src/dto/delete-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   CreateUserResult,
-  DatabaseService,
   DeleteUserResult,
   UpdateUserResult,
-} from 'src/database/database.service';
-import { User } from 'src/database/database.service';
+  User,
+} from '../interfaces/user.interfaces';
+import { DatabaseService } from 'src/database/database.service';
 
 @Controller('users')
 @ApiTags('Users')
