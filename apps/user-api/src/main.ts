@@ -1,11 +1,12 @@
+require('dotenv').config();
+
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from '../../user-api/src/core/application-module/src/module/app.module';
-require('dotenv').config();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule.register()); // register так как динамические модули
 
   const config = new DocumentBuilder() // swagger
     .setTitle('Nest-api по пользователям')

@@ -1,8 +1,14 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { DatabaseService } from '../service/database.service';
 
-@Module({
-  providers: [DatabaseService],
-  exports: [DatabaseService],
-})
-export class DatabaseModule {}
+@Module({})
+export class DatabaseModule {
+  static register(): DynamicModule {
+    return {
+      module: DatabaseModule,
+      providers: [DatabaseService],
+      exports: [DatabaseService],
+      global: true,
+    };
+  }
+}
