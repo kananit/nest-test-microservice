@@ -16,19 +16,19 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
   @Post()
   @ApiResponse({ status: 201 })
-  createUser(@Body() dto: CreateUserDto): Promise<CreateUserResult> {
-    return this.userService.createUser(dto);
+  async createUser(@Body() dto: CreateUserDto): Promise<CreateUserResult> {
+    return await this.userService.createUser(dto);
   }
   @Get()
-  findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  async findAll(): Promise<User[]> {
+    return await this.userService.findAll();
   }
   @Delete()
-  deleteUserById(@Body() dto: DeleteUserDto): Promise<DeleteUserResult> {
-    return this.userService.deleteUserById(dto);
+  async deleteUserById(@Body() dto: DeleteUserDto): Promise<DeleteUserResult> {
+    return await this.userService.deleteUserById(dto);
   }
   @Put()
-  updateUserById(@Body() dto: UpdateUserDto): Promise<UpdateUserResult> {
-    return this.userService.updateUserById(dto);
+  async updateUserById(@Body() dto: UpdateUserDto): Promise<UpdateUserResult> {
+    return await this.userService.updateUserById(dto);
   }
 }

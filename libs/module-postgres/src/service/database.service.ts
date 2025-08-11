@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Pool } from 'pg';
 import { CreateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/create-user.dto';
 import { UpdateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/update-user.dto';
@@ -44,6 +44,13 @@ export class DatabaseService {
     return await this.query<User>('SELECT * FROM users');
   }
 
+  async findUserById(id: number): Promise<User | null> {
+    const result = await this.query<User>('SELECT * FROM users WHERE id = $1', [
+      id,
+    ]);
+    return result[0] || null;
+  }
+
   async createUser(createUserDto: CreateUserDto): Promise<CreateUserResult> {
     const { name, surname, age } = createUserDto;
     const result = await this.query<User>(
@@ -64,7 +71,9 @@ export class DatabaseService {
       `DELETE FROM users WHERE id = $1 RETURNING *`,
       [id],
     );
-
+    if (result.length === 0) {
+      throw new NotFoundException('Такого пользователя нет');
+    }
     return {
       result,
       message: `Пользователь c id ${id} удален`,

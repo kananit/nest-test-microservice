@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Body, Put, Delete } from '@nestjs/common';
+import {
+  Get,
+  Post,
+  Body,
+  Put,
+  Delete,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/create-user.dto';
 import { UpdateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/update-user.dto';
 import { DeleteUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/delete-user.dto';
@@ -12,19 +19,24 @@ import { DatabaseService } from '@app/module-postgres/service/database.service';
 
 export class UsersService {
   constructor(private readonly databaseService: DatabaseService) {}
-  createUser(@Body() dto: CreateUserDto): Promise<CreateUserResult> {
-    return this.databaseService.createUser(dto);
+  @Post()
+  async createUser(@Body() dto: CreateUserDto): Promise<CreateUserResult> {
+    return await this.databaseService.createUser(dto);
   }
   @Get()
-  findAll(): Promise<User[]> {
-    return this.databaseService.findAll();
+  async findAll(): Promise<User[]> {
+    return await this.databaseService.findAll();
   }
   @Delete()
-  deleteUserById(@Body() dto: DeleteUserDto): Promise<DeleteUserResult> {
-    return this.databaseService.deleteUserById(dto);
+  async deleteUserById(@Body() dto: DeleteUserDto): Promise<DeleteUserResult> {
+    const user = await this.databaseService.findUserById(dto.id);
+    if (!user) {
+      throw new NotFoundException('Такого пользователя нет');
+    }
+    return await this.databaseService.deleteUserById(dto);
   }
   @Put()
-  updateUserById(@Body() dto: UpdateUserDto): Promise<UpdateUserResult> {
-    return this.databaseService.updateUserById(dto);
+  async updateUserById(@Body() dto: UpdateUserDto): Promise<UpdateUserResult> {
+    return await this.databaseService.updateUserById(dto);
   }
 }
