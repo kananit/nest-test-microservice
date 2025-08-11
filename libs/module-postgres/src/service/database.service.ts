@@ -7,14 +7,14 @@ import {
   CreateUserResult,
   UpdateUserResult,
   DeleteUserResult,
-} from 'apps/user-api/src/core/application-module/src/interfaces/user.interfaces';
-import { User } from 'apps/user-api/src/core/application-module/src/interfaces/user.interfaces';
+} from '@app/module-postgres/types/user.interfaces';
+import { User } from '@app/module-postgres/types/user.interfaces';
 import {
   DB_USER,
   DB_HOST,
   DB,
   DB_PASSWORD,
-} from 'libs/module-api/src/config/db.config';
+} from 'libs/module-postgres/src/config/db.config';
 @Injectable()
 export class DatabaseService {
   private readonly pool: Pool;

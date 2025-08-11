@@ -9,7 +9,7 @@
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "dev": "nest start user-api --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/nest-api/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -80,7 +80,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/module-api(|/.*)$": "<rootDir>/libs/module-api/src/$1"
+      "^@app/module-api(|/.*)$": "<rootDir>/libs/module-api/src/$1",
+      "^@app/module-postgres(|/.*)$": "<rootDir>/libs/module-postgres/src/$1"
     }
   }
 }

@@ -8,28 +8,27 @@ import {
   DeleteUserResult,
   UpdateUserResult,
   User,
-} from '../../../../core/application-module/src/interfaces/user.interfaces';
-import { DatabaseService } from '@app/module-api/service/database.service';
-
+} from '../../../../../../../libs/module-postgres/src/types/user.interfaces';
+import { UsersService } from 'apps/user-api/src/core/application-module/src/service/user-service';
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly userService: UsersService) {}
   @Post()
   @ApiResponse({ status: 201 })
   createUser(@Body() dto: CreateUserDto): Promise<CreateUserResult> {
-    return this.databaseService.createUser(dto);
+    return this.userService.createUser(dto);
   }
   @Get()
   findAll(): Promise<User[]> {
-    return this.databaseService.findAll();
+    return this.userService.findAll();
   }
   @Delete()
   deleteUserById(@Body() dto: DeleteUserDto): Promise<DeleteUserResult> {
-    return this.databaseService.deleteUserById(dto);
+    return this.userService.deleteUserById(dto);
   }
   @Put()
   updateUserById(@Body() dto: UpdateUserDto): Promise<UpdateUserResult> {
-    return this.databaseService.updateUserById(dto);
+    return this.userService.updateUserById(dto);
   }
 }
