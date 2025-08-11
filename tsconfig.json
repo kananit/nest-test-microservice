@@ -23,6 +23,12 @@
       ],
       "@app/module-api/*": [
         "libs/module-api/src/*"
+      ],
+      "@app/module-postgres": [
+        "libs/module-postgres/src"
+      ],
+      "@app/module-postgres/*": [
+        "libs/module-postgres/src/*"
       ]
     }
   }

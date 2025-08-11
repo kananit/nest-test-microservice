@@ -1,8 +1,9 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { UsersModule } from '../../../../adapters/http-adapter/src/module/users.module';
 import { UsersController } from '../../../../adapters/http-adapter/src/controllers/users.controller';
-import { DatabaseModule } from '@app/module-api/module/database.module';
-import { DatabaseService } from '@app/module-api/service/database.service';
+import { DatabaseModule } from '@app/module-postgres/module/database.module';
+import { DatabaseService } from '@app/module-postgres/service/database.service';
+import { UsersService } from '../service/user-service';
 
 @Module({})
 export class AppModule {
@@ -11,7 +12,7 @@ export class AppModule {
       imports: [UsersModule, DatabaseModule],
       module: AppModule,
       controllers: [UsersController],
-      providers: [DatabaseService],
+      providers: [DatabaseService, UsersService],
       global: true,
     };
   }

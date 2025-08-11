@@ -2,20 +2,18 @@
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
   "sourceRoot": "apps/nest-api/src",
-
   "monorepo": true,
   "root": "apps/nest-api",
   "projects": {
-    "module-api": {
+    "module-postgres": {
       "type": "library",
-      "root": "libs/module-api",
+      "root": "libs/module-postgres",
       "entryFile": "index",
-      "sourceRoot": "libs/module-api/src",
+      "sourceRoot": "libs/module-postgres/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/module-api/tsconfig.lib.json"
+        "tsConfigPath": "libs/module-postgres/tsconfig.lib.json"
       }
     },
-
     "user-api": {
       "type": "application",
       "root": "apps/user-api",
@@ -25,5 +23,8 @@
         "tsConfigPath": "apps/user-api/tsconfig.app.json"
       }
     }
+  },
+  "compilerOptions": {
+    "webpack": true
   }
 }
