@@ -21,12 +21,10 @@ export class UsersController {
   }
   @Get()
   async findAll(): Promise<User[]> {
-    console.log('get');
     return await this.userService.findAll();
   }
   @Delete()
   async deleteUserById(@Body() dto: DeleteUserDto): Promise<DeleteUserResult> {
-    console.log('controller delete');
     return await this.userService.deleteUserById(dto);
   }
   @Put()

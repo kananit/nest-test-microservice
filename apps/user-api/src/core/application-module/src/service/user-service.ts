@@ -1,7 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/create-user.dto';
-import { UpdateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/update-user.dto';
-import { DeleteUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/delete-user.dto';
+
 import {
   CreateUserResult,
   DeleteUserResult,
@@ -14,23 +12,23 @@ import { DatabaseService } from '@app/module-postgres/service/database.service';
 export class UsersService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async createUser(dto: CreateUserDto): Promise<CreateUserResult> {
-    return await this.databaseService.createUser(dto);
+  async createUser(user: User): Promise<CreateUserResult> {
+    return await this.databaseService.createUser(user);
   }
 
   async findAll(): Promise<User[]> {
     return await this.databaseService.findAll();
   }
 
-  async deleteUserById(dto: DeleteUserDto): Promise<DeleteUserResult> {
-    const user = await this.databaseService.findUserById(dto.id);
-    if (!user) {
+  async deleteUserById(user: User): Promise<DeleteUserResult> {
+    const userId = await this.databaseService.findUserById(user.id);
+    if (!userId) {
       throw new NotFoundException('Такого пользователя нет');
     }
-    return await this.databaseService.deleteUserById(dto);
+    return await this.databaseService.deleteUserById(user);
   }
 
-  async updateUserById(dto: UpdateUserDto): Promise<UpdateUserResult> {
-    return await this.databaseService.updateUserById(dto);
+  async updateUserById(user: User): Promise<UpdateUserResult> {
+    return await this.databaseService.updateUserById(user);
   }
 }
