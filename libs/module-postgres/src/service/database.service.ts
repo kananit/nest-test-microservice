@@ -13,6 +13,8 @@ import {
   DB,
   DB_PASSWORD,
 } from 'libs/module-postgres/src/config/db.config';
+import { UserDeleteInterface } from '../types/user-delete.interface';
+import { UserCreate } from '../types/user-create.interface';
 @Injectable()
 export class DatabaseService {
   private readonly pool: Pool;
@@ -42,15 +44,15 @@ export class DatabaseService {
     return await this.query<User>('SELECT * FROM users');
   }
 
-  async findUserById(id: number): Promise<User | null> {
+  async findUserById(id: string): Promise<User | null> {
     const result = await this.query<User>('SELECT * FROM users WHERE id = $1', [
       id,
     ]);
     return result[0] || null;
   }
 
-  async createUser(user: User): Promise<CreateUserResult> {
-    const { name, surname, age } = user;
+  async createUser(userCreate: UserCreate): Promise<CreateUserResult> {
+    const { name, surname, age } = userCreate;
     const result = await this.query<User>(
       `INSERT INTO users (name, surname, age) VALUES ($1, $2, $3) RETURNING name, surname, age`,
       [name, surname, age],
@@ -61,8 +63,10 @@ export class DatabaseService {
     };
   }
 
-  async deleteUserById(user: User): Promise<DeleteUserResult> {
-    const { id } = user;
+  async deleteUserById(
+    userDelete: UserDeleteInterface,
+  ): Promise<DeleteUserResult> {
+    const { id } = userDelete;
     const result = await this.query<User>(
       `DELETE FROM users WHERE id = $1 RETURNING *`,
       [id],
