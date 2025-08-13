@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 
 import { DatabaseModule } from '@app/module-postgres/module/database.module';
-import { AppModule } from '../../core/application-module/src/module/app.module';
+import { ApplicationModule } from '../../core/application-module/src/module/application.module';
 import { UsersModule } from '../../adapters/http-adapter/src/module/users.module';
 
 @Module({
   imports: [
     DatabaseModule.register(),
-    AppModule.register(),
+    ApplicationModule.register(),
     UsersModule.register(),
   ],
 })

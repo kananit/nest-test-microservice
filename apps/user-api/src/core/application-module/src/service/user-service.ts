@@ -30,6 +30,8 @@ export class UsersService {
   @Delete()
   async deleteUserById(@Body() dto: DeleteUserDto): Promise<DeleteUserResult> {
     const user = await this.databaseService.findUserById(dto.id);
+    console.log(user);
+    console.log('delete');
     if (!user) {
       throw new NotFoundException('Такого пользователя нет');
     }

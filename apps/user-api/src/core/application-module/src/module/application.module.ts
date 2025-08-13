@@ -6,13 +6,11 @@ import { DatabaseService } from '@app/module-postgres/service/database.service';
 import { UsersService } from '../service/user-service';
 
 @Module({})
-export class AppModule {
+export class ApplicationModule {
   static register(): DynamicModule {
     return {
-      imports: [UsersModule, DatabaseModule],
-      module: AppModule,
-      controllers: [UsersController],
-      providers: [DatabaseService, UsersService],
+      module: ApplicationModule,
+      providers: [UsersService],
       global: true,
     };
   }
