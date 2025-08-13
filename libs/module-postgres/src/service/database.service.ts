@@ -41,6 +41,7 @@ export class DatabaseService {
   }
 
   async findAll(): Promise<User[]> {
+    console.log('database find all');
     return await this.query<User>('SELECT * FROM users');
   }
 

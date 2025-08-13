@@ -1,4 +1,4 @@
-// require('dotenv').config(); // должен быть на вверхнем уровне чтобы не было ошибки
+require('dotenv').config(); // должен быть на вверхнем уровне чтобы не было ошибки
 
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
