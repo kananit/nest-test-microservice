@@ -25,6 +25,7 @@ export class UsersController {
   }
   @Delete()
   async deleteUserById(@Body() dto: DeleteUserDto): Promise<DeleteUserResult> {
+    console.log('controller delete');
     return await this.userService.deleteUserById(dto);
   }
   @Put()

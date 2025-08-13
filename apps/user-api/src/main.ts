@@ -1,12 +1,11 @@
-require('dotenv').config(); // должен быть на вверхнем уровне чтобы не было ошибки
+// require('dotenv').config(); // должен быть на вверхнем уровне чтобы не было ошибки
 
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
-import { AppModule } from '../../user-api/src/core/application-module/src/module/app.module';
+import { ServiceEntrypointModule } from './service-entrypont/src/service-entrypoint.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule.register()); // register так как динамические модули
+  const app = await NestFactory.create(ServiceEntrypointModule); // register так как динамические модули
 
   const config = new DocumentBuilder() // swagger
     .setTitle('Nest-api по пользователям')
