@@ -5,27 +5,32 @@ import {
   DeleteUserResult,
   UpdateUserResult,
   User,
-} from '../../../../../../../libs/module-postgres/src/types/user.interfaces';
+} from '@app/module-postgres/types/user.interfaces';
 import { DatabaseService } from '@app/module-postgres/service/database.service';
+import { UserDeleteInterface } from '@app/module-postgres/types/user-delete.interface';
+import { UserCreate } from '@app/module-postgres/types/user-create.interface';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async createUser(user: User): Promise<CreateUserResult> {
-    return await this.databaseService.createUser(user);
+  async createUser(userCreate: UserCreate): Promise<CreateUserResult> {
+    return await this.databaseService.createUser(userCreate);
   }
 
   async findAll(): Promise<User[]> {
     return await this.databaseService.findAll();
   }
 
-  async deleteUserById(user: User): Promise<DeleteUserResult> {
-    const userId = await this.databaseService.findUserById(user.id);
+  async deleteUserById(
+    userDelete: UserDeleteInterface,
+  ): Promise<DeleteUserResult> {
+    const userId = await this.databaseService.findUserById(userDelete.id);
+
     if (!userId) {
       throw new NotFoundException('Такого пользователя нет');
     }
-    return await this.databaseService.deleteUserById(user);
+    return await this.databaseService.deleteUserById(userDelete);
   }
 
   async updateUserById(user: User): Promise<UpdateUserResult> {
