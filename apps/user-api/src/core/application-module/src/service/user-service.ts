@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/create-user.dto';
 import { UpdateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/update-user.dto';
 import { DeleteUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/delete-user.dto';
@@ -10,6 +10,7 @@ import {
 } from '../../../../../../../libs/module-postgres/src/types/user.interfaces';
 import { DatabaseService } from '@app/module-postgres/service/database.service';
 
+@Injectable()
 export class UsersService {
   constructor(private readonly databaseService: DatabaseService) {}
 
@@ -23,8 +24,6 @@ export class UsersService {
 
   async deleteUserById(dto: DeleteUserDto): Promise<DeleteUserResult> {
     const user = await this.databaseService.findUserById(dto.id);
-    console.log(user);
-    console.log('delete');
     if (!user) {
       throw new NotFoundException('Такого пользователя нет');
     }
