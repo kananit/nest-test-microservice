@@ -5,6 +5,12 @@ export interface User {
   age: number;
 }
 
+export interface CreateUserPayload {
+  name: string;
+  surname: string;
+  age: number;
+}
+
 export interface CreateUserResult {
   result: User[];
   message: string;
