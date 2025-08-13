@@ -5,6 +5,7 @@ import {
   CreateUserResult,
   UpdateUserResult,
   DeleteUserResult,
+  CreateUserPayload,
 } from '@app/module-postgres/types/user.interfaces';
 import { User } from '@app/module-postgres/types/user.interfaces';
 import {
@@ -13,8 +14,6 @@ import {
   DB,
   DB_PASSWORD,
 } from 'libs/module-postgres/src/config/db.config';
-import { UserDeleteInterface } from '../types/user-delete.interface';
-import { UserCreate } from '../types/user-create.interface';
 @Injectable()
 export class DatabaseService {
   private readonly pool: Pool;
@@ -51,8 +50,8 @@ export class DatabaseService {
     return result[0] || null;
   }
 
-  async createUser(userCreate: UserCreate): Promise<CreateUserResult> {
-    const { name, surname, age } = userCreate;
+  async createUser(payload: CreateUserPayload): Promise<CreateUserResult> {
+    const { name, surname, age } = payload;
     const result = await this.query<User>(
       `INSERT INTO users (name, surname, age) VALUES ($1, $2, $3) RETURNING name, surname, age`,
       [name, surname, age],
@@ -63,17 +62,11 @@ export class DatabaseService {
     };
   }
 
-  async deleteUserById(
-    userDelete: UserDeleteInterface,
-  ): Promise<DeleteUserResult> {
-    const { id } = userDelete;
+  async deleteUserById(id: string): Promise<DeleteUserResult> {
     const result = await this.query<User>(
       `DELETE FROM users WHERE id = $1 RETURNING *`,
       [id],
     );
-    if (result.length === 0) {
-      throw new NotFoundException('Такого пользователя нет');
-    }
     return {
       result,
       message: `Пользователь c id ${id} удален`,

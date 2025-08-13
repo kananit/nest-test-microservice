@@ -37,7 +37,7 @@ export class UsersController {
     if (!dto || dto.id === undefined) {
       throw new BadRequestException('Не передан id пользователя');
     }
-    return await this.userService.deleteUserById(dto);
+    return await this.userService.deleteUserById(dto.id);
   }
   @Put()
   async updateUserById(@Body() dto: UpdateUserDto): Promise<UpdateUserResult> {
