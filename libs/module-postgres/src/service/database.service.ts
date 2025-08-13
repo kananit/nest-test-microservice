@@ -1,8 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Pool } from 'pg';
-import { CreateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/create-user.dto';
-import { UpdateUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/update-user.dto';
-import { DeleteUserDto } from 'apps/user-api/src/adapters/http-adapter/src/dto/delete-user.dto';
+
 import {
   CreateUserResult,
   UpdateUserResult,
@@ -41,7 +39,6 @@ export class DatabaseService {
   }
 
   async findAll(): Promise<User[]> {
-    console.log('database find all');
     return await this.query<User>('SELECT * FROM users');
   }
 
@@ -52,22 +49,20 @@ export class DatabaseService {
     return result[0] || null;
   }
 
-  async createUser(createUserDto: CreateUserDto): Promise<CreateUserResult> {
-    const { name, surname, age } = createUserDto;
+  async createUser(user: User): Promise<CreateUserResult> {
+    const { name, surname, age } = user;
     const result = await this.query<User>(
       `INSERT INTO users (name, surname, age) VALUES ($1, $2, $3) RETURNING name, surname, age`,
       [name, surname, age],
     );
     return {
       result,
-      message: `Пользователь ${name} ${surname} создан`,
+      message: `Пользователь создан`,
     };
   }
 
-  async deleteUserById(
-    createUserDto: DeleteUserDto,
-  ): Promise<DeleteUserResult> {
-    const { id } = createUserDto;
+  async deleteUserById(user: User): Promise<DeleteUserResult> {
+    const { id } = user;
     const result = await this.query<User>(
       `DELETE FROM users WHERE id = $1 RETURNING *`,
       [id],
@@ -81,10 +76,8 @@ export class DatabaseService {
     };
   }
 
-  async updateUserById(
-    updateUserDto: UpdateUserDto,
-  ): Promise<UpdateUserResult> {
-    const { id, name, surname, age } = updateUserDto;
+  async updateUserById(user: User): Promise<UpdateUserResult> {
+    const { id, name, surname, age } = user;
     const result = await this.query<User>(
       `UPDATE users SET name = $2, surname = $3, age = $4 WHERE id = $1 RETURNING *`,
       [id, name, surname, age],
