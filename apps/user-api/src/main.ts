@@ -5,7 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ServiceEntrypointModule } from './service-entrypont/src/service-entrypoint.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(ServiceEntrypointModule); // register так как динамические модули
+  const app = await NestFactory.create(ServiceEntrypointModule);
 
   const config = new DocumentBuilder() // swagger
     .setTitle('Nest-api по пользователям')
