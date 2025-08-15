@@ -31,6 +31,24 @@ export class MinioController {
     };
   }
 
+  @Post('avatar/:userId') // POST http://localhost:3300/files/avatar/123
+  @UseInterceptors(FileInterceptor('avatar')) // <input type="file" name="avatar">
+  async uploadUserAvatar(
+    @Param('userId') userId: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const ext = file.originalname.split('.').pop(); // получаем расширение
+    const key = `avatars/${userId}.${ext}`;
+
+    await this.minioService.uploadFile(key, file.buffer, file.mimetype);
+
+    return {
+      message: 'Аватар загружен успешно',
+      fileName: key,
+      downloadUrl: `/files/download/${key}`,
+    };
+  }
+
   @Get('download/:key') // http://localhost:3300/files/download/hello.txt
   async dowloadFile(@Param('key') key: string, @Res() res: Response) {
     const buffer = await this.minioService.downloadFile(key);
