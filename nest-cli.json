@@ -5,6 +5,15 @@
   "monorepo": true,
   "root": "apps/nest-api",
   "projects": {
+    "module-minio": {
+      "type": "library",
+      "root": "libs/module-minio",
+      "entryFile": "index",
+      "sourceRoot": "libs/module-minio/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/module-minio/tsconfig.lib.json"
+      }
+    },
     "module-postgres": {
       "type": "library",
       "root": "libs/module-postgres",
