@@ -67,4 +67,4 @@ USER node
 EXPOSE 3000
 
 # Запуск приложения
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/apps/user-api/main.js"]
