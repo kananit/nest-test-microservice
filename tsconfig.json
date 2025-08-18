@@ -18,24 +18,13 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@app/module-api": [
-        "libs/module-api/src"
-      ],
-      "@app/module-api/*": [
-        "libs/module-api/src/*"
-      ],
-      "@app/module-minio": [
-        "libs/module-minio/src"
-      ],
-      "@app/module-minio/*": [
-        "libs/module-minio/src/*"
-      ],
-      "@app/module-postgres": [
-        "libs/module-postgres/src"
-      ],
-      "@app/module-postgres/*": [
-        "libs/module-postgres/src/*"
-      ]
+      "@app/module-api": ["libs/module-api/src"],
+      "@app/module-api/*": ["libs/module-api/src/*"],
+      "@app/module-minio": ["libs/module-minio/src"],
+      "@app/module-minio/*": ["libs/module-minio/src/*"],
+      "@app/module-postgres": ["libs/module-postgres/src"],
+      "@app/module-postgres/*": ["libs/module-postgres/src/*"],
+      "@app/user-api/*": ["apps/user-api/src/*"]
     }
   }
 }

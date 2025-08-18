@@ -7,17 +7,17 @@ export const S3_CONNECTION = 'S3_CONNECTION';
 
 const s3ClientProvider: Provider = {
   provide: S3_CONNECTION,
-  useFactory: () =>
-    new S3Client({
+  useFactory: () => {
+    return new S3Client({
       forcePathStyle: true,
       credentials: {
         accessKeyId: MINIO_ACCESS_KEY,
         secretAccessKey: MINIO_SECRET_KEY,
       },
       endpoint: MINIO_URI,
-
       region: 'us-east-1',
-    }),
+    });
+  },
 };
 
 @Module({})

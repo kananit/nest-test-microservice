@@ -7,15 +7,16 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
+
 import { Inject, Injectable } from '@nestjs/common';
 import { Readable } from 'stream';
 
-import { MINIO_EXCEPTION } from '../exceptions';
-import { S3_CONNECTION } from '../module/s3.connection.module';
+import { MINIO_EXCEPTION } from '@app/module-minio/exceptions';
+import { S3_CONNECTION } from '@app/module-minio/module/s3.connection.module';
 
 @Injectable()
 export class MinioService {
-  public bucket = 'files';
+  public bucket = 'avatars';
 
   constructor(@Inject(S3_CONNECTION) private readonly client: S3Client) {}
 

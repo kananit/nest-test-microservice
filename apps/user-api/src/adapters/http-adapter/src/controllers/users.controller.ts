@@ -23,7 +23,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { UsersService } from 'apps/user-api/src/core/application-module/src/service/user-service';
-import { MinioService } from '@app/module-minio/service';
+import { MinioService } from '@app/user-api/core/application-module/src/service/minio.service';
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
@@ -37,22 +37,31 @@ export class UsersController {
     return await this.userService.createUser(dto);
   }
 
-  @Post('avatar/:userId') // POST http://localhost:3300/users/avatar/123
-  @UseInterceptors(FileInterceptor('avatar')) // <input type="file" name="avatar">
+  @Post('avatar/:userId')
+  @UseInterceptors(FileInterceptor('avatar'))
   async uploadUserAvatar(
     @Param('userId') userId: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const ext = file.originalname.split('.').pop(); // получаем расширение
-    const key = `avatars/${userId}.${ext}`;
+    try {
+      if (!file) {
+        throw new BadRequestException('Файл не передан');
+      }
 
-    await this.minioService.uploadFile(key, file.buffer, file.mimetype);
+      const ext = file.originalname.split('.').pop();
+      const key = `avatars/${userId}.${ext}`;
 
-    return {
-      message: 'Аватар загружен успешно',
-      fileName: key,
-      downloadUrl: `/files/download/${key}`,
-    };
+      await this.minioService.uploadFile(key, file.buffer, file.mimetype);
+
+      return {
+        message: 'Аватар загружен успешно',
+        fileName: key,
+        downloadUrl: `/files/download/${key}`,
+      };
+    } catch (err) {
+      console.error('Ошибка загрузки аватара:', err);
+      throw err;
+    }
   }
 
   @Get()
