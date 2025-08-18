@@ -1,9 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/nest-api/src",
+  "sourceRoot": "apps/user-api/src",
   "monorepo": true,
-  "root": "apps/nest-api",
+  "root": "apps/user-api",
   "projects": {
     "module-minio": {
       "type": "library",

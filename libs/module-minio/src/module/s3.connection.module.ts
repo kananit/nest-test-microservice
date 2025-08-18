@@ -14,9 +14,8 @@ const s3ClientProvider: Provider = {
         accessKeyId: MINIO_ACCESS_KEY,
         secretAccessKey: MINIO_SECRET_KEY,
       },
-      endpoint: {
-        url: new URL(MINIO_URI),
-      },
+      endpoint: MINIO_URI,
+
       region: 'us-east-1',
     }),
 };

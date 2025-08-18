@@ -1,7 +1,6 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { MinioService } from '../service/minio.service';
 import { S3ClientModule } from './s3.connection.module';
-import { MinioController } from '../controller/minio.controller';
 
 @Module({})
 export class MinioModule {
@@ -13,7 +12,6 @@ export class MinioModule {
       imports: [s3ClientModule],
       providers: [MinioService],
       exports: [MinioService],
-      controllers: [MinioController],
     };
   }
 }
