@@ -3,6 +3,7 @@
 /node_modules
 /build
 /docker/minio-data
+/docker
 # Logs
 logs
 *.log
