@@ -21,7 +21,9 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.864.0",
+    "@golevelup/nestjs-rabbitmq": "^6.0.2",
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.0.1",
@@ -85,7 +87,8 @@
     "moduleNameMapper": {
       "^@app/module-api(|/.*)$": "<rootDir>/libs/module-api/src/$1",
       "^@app/module-minio(|/.*)$": "<rootDir>/libs/module-minio/src/$1",
-      "^@app/module-postgres(|/.*)$": "<rootDir>/libs/module-postgres/src/$1"
+      "^@app/module-postgres(|/.*)$": "<rootDir>/libs/module-postgres/src/$1",
+      "^@app/rabbitmq(|/.*)$": "<rootDir>/libs/rabbitmq/src/$1"
     }
   }
 }
