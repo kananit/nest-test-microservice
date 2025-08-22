@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
 
 import {
@@ -23,9 +23,29 @@ export class DatabaseService {
       user: DB_USER,
       host: DB_HOST,
       database: DB,
-      password: DB_PASSWORD,
+      password: DB_PASSWORD || '',
       port: this.portEnv !== undefined ? parseInt(this.portEnv, 10) : undefined, // преобразование строки в число
     });
+
+    // Создаем таблицу при старте
+
+    this.ensureTablesExist();
+  }
+
+  private async ensureTablesExist() {
+    const client = await this.pool.connect();
+    try {
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS users (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(100) NOT NULL,
+          surname VARCHAR(100) NOT NULL,
+          age INT
+        );
+      `);
+    } finally {
+      client.release();
+    }
   }
 
   async query<T>(text: string, params?: (string | number)[]): Promise<T[]> {
