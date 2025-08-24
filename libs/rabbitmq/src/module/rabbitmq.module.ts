@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { RabbitMQService } from '@app/user-api/core/application-module/src/service/rabbitmq.service';
+import { RabbitMQService } from '@app/rabbitmq/service/rabbitmq.service';
 
 @Module({})
 export class RabbitMQModule {
