@@ -1,3 +1,4 @@
+import { CreateUserDto } from '@app/user-api/adapters/http-adapter/src/dto/create-user.dto';
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { connect, Connection, Channel } from 'amqplib';
 import { RABBITMQ_URI } from 'libs/rabbitmq/src/config/rabbitmq.config';
@@ -7,34 +8,38 @@ export class RabbitMQService implements OnModuleInit, OnModuleDestroy {
   private connection: Connection;
   private channel: Channel;
 
-  async onModuleInit() {
-    // Устанавливаем соединение с RabbitMQ
-    this.connection = await connect(RABBITMQ_URI);
-    // Создаём канал для общения с RabbitMQ
-    this.channel = await this.connection.createChannel();
-    // Объявляем очередь 'user_created', если она ещё не существует
-    await this.channel.assertQueue('user_created', { durable: true });
+  async onModuleInit(): Promise<void> {
+    try {
+      this.connection = await connect(RABBITMQ_URI);
+      this.channel = await this.connection.createChannel();
+      await this.channel.assertQueue('user_created', { durable: true });
+    } catch (error) {
+      console.error('Error initializing RabbitMQ:', error);
+      throw error;
+    }
   }
 
   // Метод для отправки сообщения в очередь
-  async sendUserCreatedMessage(pattern: string, user: any) {
+  sendUserCreatedMessage(pattern: string, user: CreateUserDto) {
     const message = {
       pattern,
       user,
       text: `Пользователь ${user.name} ${user.surname} создан`,
     };
     // Отправляем сообщение в очередь 'user_created'
-    this.channel.sendToQueue(
+    const isSent = this.channel.sendToQueue(
       'user_created',
-      Buffer.from(JSON.stringify(message)), // преобразуем обьект в строку потом в бинарный код
-      {
-        persistent: true, // Сообщение будет сохраняться на диске
-      },
+      Buffer.from(JSON.stringify(message)),
+      { persistent: true },
     );
+
+    if (!isSent) {
+      console.warn('Сообщение не было отправлено в очередь, канал переполнен');
+    }
   }
 
   // Закрываем соединение и канал при уничтожении модуля
-  async onModuleDestroy() {
+  async onModuleDestroy(): Promise<void> {
     await this.channel.close();
     await this.connection.close();
   }

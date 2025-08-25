@@ -37,7 +37,7 @@ export class UsersController {
   @Post()
   @ApiResponse({ status: 201 })
   async createUser(@Body() dto: CreateUserDto): Promise<CreateUserResult> {
-    await this.rabbitMQService.sendUserCreatedMessage('user_created', dto); // сообщение пользоваетль создан (RabbitMQ)
+    this.rabbitMQService.sendUserCreatedMessage('user_created', dto); // сообщение пользоваетль создан (RabbitMQ)
     return await this.userService.createUser(dto);
   }
 

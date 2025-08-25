@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+
 import * as dotenv from 'dotenv';
 
 if (process.env.NODE_ENV === 'docker') {
