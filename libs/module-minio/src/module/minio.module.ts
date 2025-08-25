@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { MinioService } from 'apps/user-api/src/core/application-module/src/service/minio.service';
+import { MinioService } from '@app/module-minio/service/minio.service';
 import { S3ClientModule } from './s3.connection.module';
 
 @Module({})
