@@ -6,6 +6,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
@@ -26,5 +28,12 @@
       "@app/module-postgres/*": ["libs/module-postgres/src/*"],
       "@app/user-api/*": ["apps/user-api/src/*"]
     }
-  }
+  },
+  "include": [
+    "apps/**/*",
+    "libs/**/*",
+    "test/**/*",
+    "tsconfig.json",
+    ".eslintrc.js"
+  ]
 }
