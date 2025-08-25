@@ -1,4 +1,12 @@
-require('dotenv').config(); // должен быть на вверхнем уровне чтобы не было ошибки
+/* eslint-disable @typescript-eslint/no-floating-promises */
+
+import * as dotenv from 'dotenv';
+
+if (process.env.NODE_ENV === 'docker') {
+  dotenv.config({ path: 'docker/.env' });
+} else {
+  dotenv.config({ path: '.env.local' });
+}
 
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';

@@ -8,7 +8,6 @@ import {
   User,
 } from '@app/module-postgres/types/user.interfaces';
 import { DatabaseService } from '@app/module-postgres/service/database.service';
-import { RabbitmqService } from '@app/rabbitmq';
 
 @Injectable()
 export class UsersService {
