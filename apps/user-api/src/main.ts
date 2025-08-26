@@ -8,6 +8,11 @@ if (process.env.NODE_ENV === 'docker') {
   dotenv.config({ path: '.env.local' });
 }
 
+if (process.env.NODE_ENV === 'docker') {
+  dotenv.config({ path: 'docker/.env' });
+} else {
+  dotenv.config({ path: '.env.local' });
+}
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ServiceEntrypointModule } from './service-entrypont/src/service-entrypoint.module';

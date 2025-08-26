@@ -6,6 +6,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
@@ -18,33 +20,15 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@app/module-api": [
-        "libs/module-api/src"
-      ],
-      "@app/module-api/*": [
-        "libs/module-api/src/*"
-      ],
-      "@app/module-minio": [
-        "libs/module-minio/src"
-      ],
-      "@app/module-minio/*": [
-        "libs/module-minio/src/*"
-      ],
-      "@app/module-postgres": [
-        "libs/module-postgres/src"
-      ],
-      "@app/module-postgres/*": [
-        "libs/module-postgres/src/*"
-      ],
-      "@app/rabbitmq": [
-        "libs/rabbitmq/src"
-      ],
-      "@app/rabbitmq/*": [
-        "libs/rabbitmq/src/*"
-      ],
-      "@app/user-api/*": [
-        "apps/user-api/src/*"
-      ]
+      "@app/module-api": ["libs/module-api/src"],
+      "@app/module-api/*": ["libs/module-api/src/*"],
+      "@app/module-minio": ["libs/module-minio/src"],
+      "@app/module-minio/*": ["libs/module-minio/src/*"],
+      "@app/module-postgres": ["libs/module-postgres/src"],
+      "@app/module-postgres/*": ["libs/module-postgres/src/*"],
+      "@app/rabbitmq": ["libs/rabbitmq/src"],
+      "@app/rabbitmq/*": ["libs/rabbitmq/src/*"],
+      "@app/user-api/*": ["apps/user-api/src/*"]
     }
   }
 }
