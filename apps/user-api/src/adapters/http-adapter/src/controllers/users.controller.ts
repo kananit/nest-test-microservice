@@ -23,7 +23,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { UsersService } from 'apps/user-api/src/core/application-module/src/service/user-service';
-import { MinioService } from '@app/user-api/core/application-module/src/service/minio.service';
+import { MinioService } from '@app/module-minio/service/minio.service';
 import { RabbitMQService } from 'libs/rabbitmq';
 
 @Controller('users')
