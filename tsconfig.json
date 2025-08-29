@@ -26,14 +26,9 @@
       "@app/module-minio/*": ["libs/module-minio/src/*"],
       "@app/module-postgres": ["libs/module-postgres/src"],
       "@app/module-postgres/*": ["libs/module-postgres/src/*"],
+      "@app/rabbitmq": ["libs/rabbitmq/src"],
+      "@app/rabbitmq/*": ["libs/rabbitmq/src/*"],
       "@app/user-api/*": ["apps/user-api/src/*"]
     }
-  },
-  "include": [
-    "apps/**/*",
-    "libs/**/*",
-    "test/**/*",
-    "tsconfig.json",
-    ".eslintrc.js"
-  ]
+  }
 }

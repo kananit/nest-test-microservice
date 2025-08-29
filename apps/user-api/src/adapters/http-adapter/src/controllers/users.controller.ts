@@ -24,20 +24,24 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 import { UsersService } from 'apps/user-api/src/core/application-module/src/service/user-service';
 import { MinioService } from '@app/module-minio/service/minio.service';
+import { RabbitMQService } from 'libs/rabbitmq';
+
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
   constructor(
     private readonly userService: UsersService,
     private readonly minioService: MinioService,
+    private readonly rabbitMQService: RabbitMQService,
   ) {}
   @Post()
   @ApiResponse({ status: 201 })
   async createUser(@Body() dto: CreateUserDto): Promise<CreateUserResult> {
+    this.rabbitMQService.sendUserCreatedMessage('user_created', dto); // сообщение пользоваетль создан (RabbitMQ)
     return await this.userService.createUser(dto);
   }
 
-  @Post('avatar/:userId')
+  @Post('avatar/:userId') // minio
   @UseInterceptors(FileInterceptor('avatar'))
   async uploadUserAvatar(
     @Param('userId') userId: string,

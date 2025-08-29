@@ -21,14 +21,15 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.864.0",
+    "@golevelup/nestjs-rabbitmq": "^6.0.2",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/mapped-types": "*",
+    "@nestjs/microservices": "^11.1.6",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.0",
-    "@typescript-eslint/eslint-plugin": "^8.40.0",
-    "@typescript-eslint/parser": "^8.40.0",
+    "amqplib": "^0.10.9",
     "dotenv": "^17.2.0",
     "nestjs-minio": "^2.6.2",
     "pg": "^8.16.3",
@@ -44,6 +45,7 @@
     "@nestjs/testing": "^11.0.1",
     "@swc/cli": "^0.6.0",
     "@swc/core": "^1.10.7",
+    "@types/amqplib": "^0.10.6",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/multer": "^2.0.0",
@@ -88,7 +90,8 @@
     "moduleNameMapper": {
       "^@app/module-api(|/.*)$": "<rootDir>/libs/module-api/src/$1",
       "^@app/module-minio(|/.*)$": "<rootDir>/libs/module-minio/src/$1",
-      "^@app/module-postgres(|/.*)$": "<rootDir>/libs/module-postgres/src/$1"
+      "^@app/module-postgres(|/.*)$": "<rootDir>/libs/module-postgres/src/$1",
+      "^@app/rabbitmq(|/.*)$": "<rootDir>/libs/rabbitmq/src/$1"
     }
   }
 }
