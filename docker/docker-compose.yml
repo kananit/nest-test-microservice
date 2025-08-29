@@ -10,18 +10,18 @@ services:
       - '${DB_PORT}:5432'
     volumes:
       - db_data:/var/lib/postgresql/data
-
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U ${DB_USER} -d ${DB}']
       interval: 10s
       retries: 5
+    networks:
+      - docker_default
 
   app:
     build:
       context: ..
       dockerfile: docker/Dockerfile
     container_name: nest-app
-
     depends_on:
       db:
         condition: service_healthy
@@ -29,6 +29,8 @@ services:
         condition: service_started
       rabbitmq:
         condition: service_healthy
+    env_file:
+      - ./.env
     ports:
       - '3000:3000'
     environment:
@@ -39,7 +41,7 @@ services:
       PGDATABASE: ${DB}
       PGPORT: 5432
 
-      # MinIO настройки
+      # MinIO
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
       MINIO_USE_SSL: 'false'
@@ -47,12 +49,14 @@ services:
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
       MINIO_URI: http://minio:9000
 
-      # RabbitMQ настройки
+      # RabbitMQ
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: ${RABBITMQ_PORT}
       RABBITMQ_URI: amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:${RABBITMQ_PORT}
+    networks:
+      - docker_default
 
   minio:
     image: quay.io/minio/minio
@@ -66,13 +70,15 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - ./minio-data:/data
+    networks:
+      - docker_default
 
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - '5672:5672' # порт для приложений
-      - '15672:15672' # веб-консоль
+      - '5672:5672'
+      - '15672:15672'
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
@@ -81,6 +87,12 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
+    networks:
+      - docker_default
 
 volumes:
   db_data:
+
+networks:
+  docker_default:
+    external: true

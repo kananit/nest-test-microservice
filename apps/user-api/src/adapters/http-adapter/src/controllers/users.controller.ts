@@ -10,6 +10,7 @@ import {
   Param,
   UploadedFile,
 } from '@nestjs/common';
+
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { DeleteUserDto } from '../dto/delete-user.dto';
@@ -37,7 +38,9 @@ export class UsersController {
   @Post()
   @ApiResponse({ status: 201 })
   async createUser(@Body() dto: CreateUserDto): Promise<CreateUserResult> {
-    this.rabbitMQService.sendUserCreatedMessage('user_created', dto); // сообщение пользоваетль создан (RabbitMQ)
+    // Отправляем DTO в RabbitMQ
+    this.rabbitMQService.sendUserCreatedMessage(dto);
+    // Сохраняем пользователя и возвращаем результат
     return await this.userService.createUser(dto);
   }
 
