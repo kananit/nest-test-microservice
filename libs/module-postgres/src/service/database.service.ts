@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-
 import { Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
 
@@ -16,25 +15,37 @@ import {
   DB,
   DB_PASSWORD,
 } from 'libs/module-postgres/src/config/db.config';
+
 @Injectable()
 export class DatabaseService {
-  private readonly pool: Pool;
+  private pool: Pool | null = null;
   portEnv = process.env.DB_PORT;
+
   constructor() {
+    const enableDb = process.env.ENABLE_DB === 'true';
+    if (!enableDb) {
+      console.log('PostgreSQL локально отключён, подключение не выполняется');
+      return;
+    }
+
+    if (!DB_USER || !DB_PASSWORD) {
+      throw new Error('DB_USER или DB_PASSWORD не определены!');
+    }
+
     this.pool = new Pool({
       user: DB_USER,
       host: DB_HOST,
       database: DB,
-      password: DB_PASSWORD || '',
-      port: this.portEnv !== undefined ? parseInt(this.portEnv, 10) : undefined, // преобразование строки в число
+      password: DB_PASSWORD,
+      port: this.portEnv ? parseInt(this.portEnv, 10) : 5432,
     });
 
-    // Создаем таблицу при старте
-
+    // Создаем таблицы при старте
     this.ensureTablesExist();
   }
 
   private async ensureTablesExist() {
+    if (!this.pool) return; // ничего не делаем если DB отключена
     const client = await this.pool.connect();
     try {
       await client.query(`
@@ -51,6 +62,7 @@ export class DatabaseService {
   }
 
   async query<T>(text: string, params?: (string | number)[]): Promise<T[]> {
+    if (!this.pool) return []; // игнорируем запросы если DB отключена
     const client = await this.pool.connect();
     try {
       await client.query(`SET client_encoding TO 'LATIN9'`);

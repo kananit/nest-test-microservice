@@ -25,7 +25,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 import { UsersService } from 'apps/user-api/src/core/application-module/src/service/user-service';
 import { MinioService } from '@app/module-minio/service/minio.service';
-import { RabbitMQService } from 'libs/rabbitmq';
+import { RabbitMQService } from 'apps/rabbit/src/service/rabbitmq.service';
 
 @Controller('users')
 @ApiTags('Users')
@@ -38,13 +38,7 @@ export class UsersController {
   @Post()
   @ApiResponse({ status: 201 })
   async createUser(@Body() dto: CreateUserDto): Promise<CreateUserResult> {
-<<<<<<< HEAD
-    // Отправляем DTO в RabbitMQ
-    this.rabbitMQService.sendUserCreatedMessage(dto);
-    // Сохраняем пользователя и возвращаем результат
-=======
     this.rabbitMQService.sendUserCreatedMessage('user_created', dto); // сообщение пользоваетль создан (RabbitMQ)
->>>>>>> main
     return await this.userService.createUser(dto);
   }
 

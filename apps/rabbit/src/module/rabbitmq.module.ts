@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { RabbitMQService } from '@app/rabbitmq/service/rabbitmq.service';
+import { RabbitMQService } from '../service/rabbitmq.service';
 import { UserCreatedConsumer } from '../service/rabbitmq.consumer';
 
 @Module({})
