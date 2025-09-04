@@ -4,7 +4,6 @@ import { DatabaseModule } from '@app/module-postgres/module/database.module';
 import { ApplicationModule } from '../../core/application-module/src/module/application.module';
 import { UsersModule } from '../../adapters/http-adapter/src/module/users.module';
 import { MinioModule } from '@app/module-minio/module/minio.module';
-import { RabbitMQModule } from 'libs/rabbitmq/src/module/rabbitmq.module';
 
 @Module({
   imports: [
@@ -12,7 +11,6 @@ import { RabbitMQModule } from 'libs/rabbitmq/src/module/rabbitmq.module';
     ApplicationModule.register(),
     MinioModule.register(),
     UsersModule.register(),
-    RabbitMQModule.register(),
   ],
 })
 export class ServiceEntrypointModule {}
