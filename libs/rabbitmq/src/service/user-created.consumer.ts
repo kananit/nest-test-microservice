@@ -16,7 +16,7 @@ export class UserCreatedConsumer {
       channel.reject(msg, false); // сообщение отклоняется, но не переходит в очередь повторно
     },
   })
-  async handleUserCreated(data: any) {
+  handleUserCreated(data: any) {
     console.log('Получено сообщение user_created:', data);
     // Добавляем логику обработки, например, запись в БД
   }
